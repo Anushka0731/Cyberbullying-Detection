@@ -15,11 +15,6 @@ export default function Topbar() {
 
   const navigate = useNavigate();
 
-
-  /* =========================
-     OPEN YOUR PROFILE
-     ========================= */
-
   function handleProfileClick() {
     try {
       const token = localStorage.getItem('token');
@@ -51,11 +46,6 @@ export default function Topbar() {
     }
   }
 
-
-  /* =========================
-     CLOSE SEARCH ON OUTSIDE CLICK
-     ========================= */
-
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -78,11 +68,6 @@ export default function Topbar() {
       );
     };
   }, []);
-
-
-  /* =========================
-     SEARCH USERS
-     ========================= */
 
   useEffect(() => {
     if (!showSearch) {
@@ -127,8 +112,6 @@ export default function Topbar() {
   return (
     <div className="topbar">
 
-      {/* LOGO */}
-
       <div className="wordmark">
 
         <div className="wordmark-mark">
@@ -143,9 +126,6 @@ export default function Topbar() {
         Unsaid
 
       </div>
-
-
-      {/* SEARCH */}
 
       <div
         className="search-wrap"
@@ -256,9 +236,6 @@ export default function Topbar() {
 
 
       <div className="top-spacer" />
-
-
-      {/* CLICKABLE PROFILE AVATAR */}
 
       <button
         type="button"

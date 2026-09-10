@@ -3,34 +3,18 @@ from pydantic import BaseModel
 import joblib
 import re
 
-
-# =====================================================
-# LOAD MODELS
-# =====================================================
-
-binary_model = joblib.load("binary_model.pkl")
+binary_model = joblib.load("binary_model.pkl") #loaded models
 binary_vectorizer = joblib.load("binary_vectorizer.pkl")
 
 category_model = joblib.load("category_model.pkl")
 category_vectorizer = joblib.load("category_vectorizer.pkl")
 
-
 app = FastAPI()
-
-
-# =====================================================
-# REQUEST FORMAT
-# =====================================================
 
 class PredictionRequest(BaseModel):
     text: str
 
-
-# =====================================================
-# TEXT CLEANING
-# =====================================================
-
-def clean_text(text):
+def clean_text(text): #text cleaning step
 
     text = str(text).lower()
 
@@ -39,31 +23,22 @@ def clean_text(text):
         "",
         text
     )
-
     text = re.sub(
         r"@\w+",
         "",
         text
     )
-
     text = re.sub(
         r"#(\w+)",
         r"\1",
         text
     )
-
     text = re.sub(
         r"\s+",
         " ",
         text
     )
-
     return text.strip()
-
-
-# =====================================================
-# HOME
-# =====================================================
 
 @app.get("/")
 def home():
@@ -72,24 +47,13 @@ def home():
         "message": "Unsaid ML API is running"
     }
 
-
-# =====================================================
-# PREDICTION
-# =====================================================
-
-@app.post("/api/predict")
+@app.post("/api/predict") #predictions
 def predict(request: PredictionRequest):
-
     cleaned = clean_text(
         request.text
     )
-
-
-    # -----------------------------------------------
-    # BINARY MODEL
-    # -----------------------------------------------
-
-    binary_features = (
+    
+    binary_features = ( #binary
         binary_vectorizer.transform(
             [cleaned]
         )
@@ -104,20 +68,11 @@ def predict(request: PredictionRequest):
     bullying_probability = float(
         binary_probabilities[1]
     )
-
-
-    # Same threshold used for posts AND comments
-
     is_bullying = (
         bullying_probability >= 0.75
     )
-
-
-    # -----------------------------------------------
-    # NOT CYBERBULLYING
-    # -----------------------------------------------
-
-    if not is_bullying:
+    
+    if not is_bullying: #for not bully
 
         return {
 
@@ -134,12 +89,7 @@ def predict(request: PredictionRequest):
 
         }
 
-
-    # -----------------------------------------------
-    # CATEGORY MODEL
-    # -----------------------------------------------
-
-    category_features = (
+    category_features = ( #category model
         category_vectorizer.transform(
             [cleaned]
         )
@@ -166,13 +116,7 @@ def predict(request: PredictionRequest):
             category_index
         ]
     )
-
-
-    # -----------------------------------------------
-    # FINAL RESULT
-    # -----------------------------------------------
-
-    return {
+    return { #results
 
         "is_bullying":
             True,
@@ -191,5 +135,4 @@ def predict(request: PredictionRequest):
                 category_confidence,
                 4
             ),
-
     }

@@ -58,40 +58,26 @@ function toCard(post) {
   };
 }
 
-
 export default function ExplorePage() {
-
   const navigate = useNavigate();
-
   const [posts, setPosts] = useState([]);
-
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState('');
-
-
   useEffect(() => {
 
     if (!localStorage.getItem('token')) {
       navigate('/');
       return;
     }
-
-
     async function loadExplore() {
 
       try {
 
         setLoading(true);
         setError('');
-
-        // Gets posts from EVERY user
         const data = await api.getPosts();
-
         setPosts(data.map(toCard));
-
       } catch (err) {
-
         console.error(
           'EXPLORE LOAD ERROR:',
           err
@@ -103,52 +89,36 @@ export default function ExplorePage() {
         );
 
       } finally {
-
         setLoading(false);
 
       }
     }
 
-
     loadExplore();
-
   }, [navigate]);
-
 
   return (
     <div className="explore-page">
-
       <Topbar />
-
-
       <div className="explore-layout">
         <Sidebar
         onNewPost={() => navigate('/dashboard')}
         />
-
-
         <main className="explore-main">
-
           <div className="explore-header">
-
             <h1>
               Explore
             </h1>
-
             <p>
               See what's new today...
               Discover posts from everyone on Unsaid.
             </p>
-
           </div>
-
-
           {loading && (
             <div className="explore-message">
               Loading posts...
             </div>
           )}
-
 
           {!loading && error && (
             <div className="explore-message explore-error">
@@ -164,26 +134,21 @@ export default function ExplorePage() {
             </div>
           )}
 
-
           {!loading &&
             !error &&
             posts.length === 0 && (
 
               <div className="explore-empty">
-
                 <h2>
                   Nothing new yet
                 </h2>
-
                 <p>
                   Posts from the community
                   will appear here.
                 </p>
-
               </div>
 
             )}
-
 
           {!loading &&
             !error &&
@@ -199,15 +164,10 @@ export default function ExplorePage() {
                   />
 
                 ))}
-
               </div>
-
             )}
-
         </main>
-
       </div>
-
     </div>
   );
 }

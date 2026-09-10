@@ -37,8 +37,7 @@ function CommentBubble({ text }) {
     const cs = getComputedStyle(bubble);
     const r = parseFloat(cs.borderRadius) || 12;
 
-    /* Bubble background */
-    ctx.beginPath();
+    ctx.beginPath(); /*bubbles*/
     ctx.moveTo(r, 0);
     ctx.arcTo(w, 0, w, h, r);
     ctx.arcTo(w, h, 0, h, r);
@@ -118,12 +117,7 @@ function CommentBubble({ text }) {
       return;
     }
 
-    /*
-      Hide the original text immediately.
 
-      This is the important fix for the "double text /
-      ghost text" glitch during disintegration.
-    */
     setDisintegrating(true);
 
     const rect = bubble.getBoundingClientRect();
@@ -193,10 +187,6 @@ function CommentBubble({ text }) {
         const dist =
           Math.sqrt(dx * dx + dy * dy) || 1;
 
-        /*
-          Tiles farther from the cursor start
-          slightly later.
-        */
         const delay =
           (dist / maxDist) * 180 +
           Math.random() * 80;
@@ -205,9 +195,6 @@ function CommentBubble({ text }) {
           480 +
           Math.random() * 280;
 
-        /*
-          Push pieces away from cursor.
-        */
         const driftX =
           (dx / dist) *
             (28 + Math.random() * 46) +
@@ -235,10 +222,6 @@ function CommentBubble({ text }) {
       }
     }
 
-    /*
-      Wait until the pieces have disappeared,
-      then replace them with the caught state.
-    */
     setTimeout(() => {
       if (layer && layer.parentNode) {
         layer.remove();
@@ -334,8 +317,6 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
 
-      {/* ================= LEFT BRAND PANEL ================= */}
-
       <div className="brand-panel">
         <div className="wordmark">
           <img
@@ -346,10 +327,6 @@ export default function LoginPage() {
 
           <span>Unsaid</span>
           </div>
-
-
-        {/* Main left-side content */}
-
         <div className="brand-copy">
 
           <h1 className="tagline">
@@ -383,9 +360,6 @@ export default function LoginPage() {
 
       </div>
 
-
-      {/* ================= RIGHT FORM PANEL ================= */}
-
       <div className="form-panel">
 
         <div className="form-card">
@@ -414,9 +388,6 @@ export default function LoginPage() {
 
           </div>
 
-
-          {/* Login / Signup toggle */}
-
           <div className="toggle-row">
 
             <button
@@ -440,7 +411,6 @@ export default function LoginPage() {
             </button>
 
           </div>
-
 
           {error && (
             <div className="error-message">
@@ -474,9 +444,6 @@ export default function LoginPage() {
               </div>
             )}
 
-
-            {/* Handle */}
-
             {isSignup && (
               <div className="field">
 
@@ -498,9 +465,6 @@ export default function LoginPage() {
               </div>
             )}
 
-
-            {/* Email */}
-
             <div className="field">
 
               <label htmlFor="email">
@@ -519,9 +483,6 @@ export default function LoginPage() {
               />
 
             </div>
-
-
-            {/* Password */}
 
             <div className="field">
 
@@ -549,9 +510,6 @@ export default function LoginPage() {
 
             </div>
 
-
-            {/* Submit */}
-
             <button
               type="submit"
               className="submit-btn"
@@ -562,9 +520,6 @@ export default function LoginPage() {
             </button>
 
           </form>
-
-
-          {/* Bottom switch */}
 
           {!isSignup ? (
 
@@ -599,15 +554,10 @@ export default function LoginPage() {
               >
                 Log in
               </a>
-
             </div>
-
           )}
-
         </div>
-
       </div>
-
     </div>
   );
 }

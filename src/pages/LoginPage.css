@@ -1,10 +1,3 @@
-/* =========================================================
-   UNSAID — LOGIN PAGE
-   ========================================================= */
-
-
-/* ---------- Variables ---------- */
-
 :root {
   --navy: #112250;
   --sapphire: #3B507D;
@@ -23,15 +16,10 @@
   --bubble-text: #F3C7C7;
 }
 
-
-/* ---------- Reset ---------- */
-
 * {
   box-sizing: border-box;
 }
 
-
-/* ---------- Page ---------- */
 
 .auth-page {
   display: grid;
@@ -46,11 +34,6 @@
 
   overflow: hidden;
 }
-
-
-/* =========================================================
-   LEFT BRAND PANEL
-   ========================================================= */
 
 .brand-panel {
 
@@ -75,9 +58,6 @@
 
   overflow: hidden;
 }
-
-
-/* ---------- Logo ---------- */
 
 .brand-panel .wordmark {
   position: relative;
@@ -108,632 +88,338 @@
   border-radius: 10px;
 }
 
-/* =========================================================
-   LEFT CENTER CONTENT
-   ========================================================= */
-
 .brand-copy {
 
   position: absolute;
-
   left: 56px;
-
-  /*
-    45% puts the content slightly above
-    the exact vertical center.
-  */
   top: 45%;
-
   transform: translateY(-50%);
-
   width: calc(100% - 112px);
-
   max-width: 420px;
-
   z-index: 3;
 }
 
-
-/* ---------- Tagline ---------- */
-
 .tagline {
-
   font-size: 38px;
-
   font-weight: 500;
-
   line-height: 1.18;
-
   letter-spacing: -0.01em;
-
   margin: 0 0 18px;
-
   font-family: 'Fraunces', serif;
-
   color: var(--ivory);
 }
 
-
 .tagline em {
-
   font-style: italic;
-
   color: var(--champagne);
 }
 
-
-/* =========================================================
-   COMMENT TRAIL
-   ========================================================= */
-
 .trail {
-
   position: relative;
-
   margin-top: 46px;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 14px;
-
   width: 100%;
-
   max-width: 400px;
 }
 
-
-/* ---------- Hint ---------- */
-
 .trail-hint {
-
   font-size: 11.5px;
-
   color: #B3A8C0;
-
   margin: 2px 0 0;
 }
 
-
-/* =========================================================
-   COMMENT BUBBLE
-   ========================================================= */
-
 .comment-bubble {
-
   position: relative;
-
   padding: 12px 16px;
-
   border-radius: 12px;
-
   font-size: 13.5px;
-
   line-height: 1.4;
-
   background:
     rgba(220, 90, 90, 0.16);
-
   border:
     1px solid
     rgba(220, 120, 120, 0.35);
-
   min-height: 48px;
-
   width: 100%;
-
   isolation: isolate;
-
   overflow: visible;
-
   animation:
     fadeUp 0.6s ease both;
 }
-
 
 .comment-bubble:nth-child(1) {
   animation-delay: 0.1s;
 }
 
-
 .comment-bubble:nth-child(2) {
   animation-delay: 0.3s;
 }
-
 
 .comment-bubble:nth-child(3) {
   animation-delay: 0.5s;
 }
 
-
-/* ---------- Original text ---------- */
-
 .bubble-text {
-
   position: relative;
-
   z-index: 1;
-
   display: block;
-
   color: var(--bubble-text);
-
   opacity: 1;
-
   transition:
     opacity 0.08s ease;
 }
 
-
-/*
-  IMPORTANT:
-
-  As soon as the mouse enters the bubble,
-  the original text disappears.
-
-  The canvas tiles contain their own copy of
-  the text, so this prevents the double-text
-  / ghost-text effect.
-*/
-
-.comment-bubble.disintegrating
+.comment-bubble.disintegrating /*disintegrating intro*/
 .bubble-text {
-
   opacity: 0;
 }
-
-
-/* Once caught, original text stays hidden */
 
 .comment-bubble.show-badge
 .bubble-text {
-
   opacity: 0;
 }
 
-
-/* =========================================================
-   DISINTEGRATION TILE LAYER
-   ========================================================= */
-
 .tile-layer {
-
   position: absolute;
-
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   pointer-events: none;
-
   z-index: 10;
-
   overflow: visible;
 }
 
-
-/* Individual particle */
-
 .tile {
-
   position: absolute;
-
   background-repeat: no-repeat;
-
   background-color: transparent;
-
   pointer-events: none;
-
   will-change:
     transform,
     opacity;
-
   transform-origin: center center;
-
   backface-visibility: hidden;
 }
 
-
-/* =========================================================
-   CAUGHT BADGE
-   ========================================================= */
-
 .caught-badge {
-
   position: absolute;
-
   inset: 0;
-
   z-index: 5;
-
   display: flex;
-
   align-items: center;
-
   gap: 8px;
-
   padding: 12px 16px;
-
   opacity: 0;
-
   transform:
     translateY(4px);
-
   transition:
     opacity 0.35s ease,
     transform 0.35s ease;
-
   pointer-events: none;
 }
 
-
 .comment-bubble.show-badge
 .caught-badge {
-
   opacity: 1;
-
   transform:
     translateY(0);
 }
 
-
-/* Green dot */
-
 .badge-dot {
-
   width: 6px;
   height: 6px;
-
   border-radius: 50%;
-
   background: #7FE0B5;
-
   flex-shrink: 0;
-
   box-shadow:
     0 0 8px
     rgba(127, 224, 181, 0.35);
 }
 
-
-/* Badge text */
-
 .badge-text {
-
   font-size: 12px;
-
   font-weight: 500;
-
   color: #CFE9DA;
-
   letter-spacing: 0.01em;
 }
 
-
-/* =========================================================
-   LEFT FOOTER
-   ========================================================= */
-
 .brand-foot {
-
   position: absolute;
-
   left: 56px;
-
   bottom: 30px;
-
   font-size: 12px;
-
   color: #A99CAF;
 }
 
-
-/* ---------- Animation ---------- */
-
 @keyframes fadeUp {
-
   from {
-
     opacity: 0;
-
     transform:
       translateY(10px);
   }
-
   to {
-
     opacity: 1;
-
     transform:
       translateY(0);
   }
 }
 
-
-/* =========================================================
-   RIGHT FORM PANEL
-   ========================================================= */
-
 .form-panel {
-
   min-height: 100vh;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   padding: 40px 32px;
-
-  /*
-    EXACT APPROXIMATION OF THE
-    PINK FROM YOUR REFERENCE IMAGE
-  */
   background: var(--login-pink);
 }
 
-
-/* ---------- Form card ---------- */
-
 .form-card {
-
   width: 100%;
-
   max-width: 380px;
 }
 
-
-/* ---------- Header ---------- */
-
 .form-head {
-
   margin-bottom: 30px;
 }
 
-
 .form-head h2 {
-
   font-size: 27px;
-
   font-weight: 600;
-
   color: var(--deep-purple);
-
   margin: 0 0 6px;
 }
 
-
 .form-head p {
-
   font-size: 14px;
-
   color: #6F5368;
-
   margin: 0;
-
   line-height: 1.5;
 }
 
-
-/* =========================================================
-   LOGIN / SIGNUP TOGGLE
-   ========================================================= */
-
 .toggle-row {
-
   display: flex;
-
   gap: 16px;
-
   margin-bottom: 26px;
-
   background: transparent;
-
   padding: 0;
 }
 
-
 .toggle-btn {
-
   flex: 1;
-
   text-align: center;
-
   padding: 9px 0;
-
   font-size: 13.5px;
-
   font-weight: 600;
-
   border-radius: 10px;
-
   border: none;
-
   color: var(--ivory);
-
   background: var(--deep-purple);
-
   cursor: pointer;
-
   transition:
     background 0.15s ease,
     transform 0.1s ease,
     box-shadow 0.15s ease;
 }
 
-
 .toggle-btn:hover {
-
   background: #5A1763;
 }
 
-
 .toggle-btn.active {
-
   background: var(--deep-purple);
-
   color: var(--ivory);
-
   box-shadow:
     0 3px 8px
     rgba(67, 13, 75, 0.22);
 }
 
-
 .toggle-btn:active {
-
   transform:
     scale(0.985);
 }
 
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
 .error-message {
-
   color: #A83245;
-
   font-size: 13px;
-
   margin-bottom: 10px;
-
   padding: 8px 10px;
-
   border-radius: 8px;
-
   background:
     rgba(168, 50, 69, 0.08);
 }
 
-
-/* =========================================================
-   INPUT FIELDS
-   ========================================================= */
-
 .field {
-
   margin-bottom: 16px;
 }
 
-
 .field label {
-
   display: block;
-
   font-size: 12.5px;
-
   font-weight: 600;
-
   color: var(--deep-purple);
-
   margin-bottom: 6px;
 }
 
-
 .field input {
-
   display: block;
-
   width: 100%;
-
   padding: 11px 13px;
-
   font-size: 14.5px;
-
   border-radius: 10px;
-
   border:
     1.5px solid
     rgba(67, 13, 75, 0.16);
-
   background: #FFFFFF;
-
   color: var(--ink);
-
   outline: none;
-
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
 }
 
-
 .field input::placeholder {
-
   color: #A49AA2;
 }
 
-
 .field input:focus {
-
   outline: none;
-
   border-color:
     var(--deep-purple);
-
   box-shadow:
     0 0 0 3px
     rgba(67, 13, 75, 0.10);
 }
 
-
-/* ---------- Password hint ---------- */
-
 .field-hint {
-
   font-size: 11.5px;
-
   color: #765E70;
-
   margin-top: 5px;
 }
 
-
-/* =========================================================
-   SUBMIT BUTTON
-   ========================================================= */
-
 .submit-btn {
-
   width: 100%;
-
   padding: 12.5px 0;
-
   border-radius: 10px;
-
   border: none;
-
   background: var(--deep-purple);
-
   color: var(--ivory);
-
   font-weight: 700;
-
   font-size: 14.5px;
-
   cursor: pointer;
-
   transition:
     background 0.15s ease,
     transform 0.1s ease,
     box-shadow 0.15s ease;
 }
 
-
 .submit-btn:hover {
-
   background: #5A1763;
-
   box-shadow:
     0 4px 12px
     rgba(67, 13, 75, 0.18);
 }
-
 
 .submit-btn:active {
 
@@ -741,94 +427,51 @@
     scale(0.985);
 }
 
-
-/* =========================================================
-   BOTTOM SWITCH
-   ========================================================= */
-
 .switch-line {
-
   text-align: center;
-
   font-size: 13.5px;
-
   color: #765E70;
-
   margin-top: 22px;
 }
 
-
 .switch-line a {
-
   color: var(--deep-purple);
-
   font-weight: 700;
-
   text-decoration: none;
 }
 
-
 .switch-line a:hover {
-
   text-decoration: underline;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
 @media (max-width: 860px) {
-
   .auth-page {
-
     grid-template-columns: 1fr;
   }
-
-
   .brand-panel {
-
     display: none;
   }
-
-
   .form-panel {
-
     min-height: 100vh;
-
     padding:
       32px 24px;
   }
 }
 
-
-/* Smaller desktop/tablet */
-
 @media (max-width: 1100px) {
-
   .brand-panel {
-
     padding: 42px;
   }
-
-
   .brand-copy {
-
     left: 42px;
-
     width:
       calc(100% - 84px);
   }
-
-
   .brand-foot {
-
     left: 42px;
   }
 
-
   .tagline {
-
     font-size: 34px;
   }
 }

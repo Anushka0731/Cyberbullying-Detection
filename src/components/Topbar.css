@@ -11,8 +11,6 @@
   z-index: 50;
 }
 
-/* ---------- Logo / Wordmark ---------- */
-
 .wordmark {
   border: none;
   background: transparent;
@@ -38,8 +36,6 @@
   display: block;
   border-radius: 7px;
 }
-
-/* ---------- Search ---------- */
 
 .search-wrap {
   flex: 1;
@@ -78,13 +74,10 @@
     0 0 0 3px rgba(67, 13, 75, 0.10);
 }
 
-/* ---------- Spacer ---------- */
 
 .top-spacer {
   flex: 1;
 }
-
-/* ---------- Notification ---------- */
 
 .icon-btn {
   width: 38px;
@@ -126,8 +119,6 @@
   border: 1.5px solid var(--card);
 }
 
-/* ---------- Profile avatar ---------- */
-
 .avatar {
   width: 36px;
   height: 36px;
@@ -160,8 +151,6 @@
   transform: scale(0.94);
 }
 
-/* ---------- Unsaid logo ---------- */
-
 .wordmark-mark {
   width: 30px !important;
   height: 30px !important;
@@ -189,8 +178,6 @@
   margin: 0 !important;
   padding: 0 !important;
 }
-
-/* ---------- Search dropdown ---------- */
 
 .search-dropdown {
   position: absolute;

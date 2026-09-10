@@ -230,16 +230,8 @@ export default function PostCard({ post }) {
         result.categoryConfidence
       );
 
-      // =================================================
-      // ONLY TRUE MEANS FLAGGED
-      // =================================================
-
       const isFlagged =
-        result.flagged === true;
-
-      // =================================================
-      // CREATE COMMENT FOR UI
-      // =================================================
+        result.flagged === true; //true = flagged
 
       const newComment = {
         id:
@@ -293,10 +285,6 @@ export default function PostCard({ post }) {
       );
       console.log(newComment);
 
-      // =================================================
-      // ADD COMMENT TO MODAL
-      // =================================================
-
       setComments((current) => [
         ...current,
         newComment,
@@ -322,20 +310,11 @@ export default function PostCard({ post }) {
 
   return (
     <>
-      {/* =================================================
-          POST
-          ================================================= */}
-
       <div
         className={`post ${
           post.flagged ? 'flagged' : ''
         }`}
       >
-
-        {/* =================================================
-            POST HEADER
-            ================================================= */}
-
         <div className="post-head">
 
           <div className="post-avatar">
@@ -344,11 +323,6 @@ export default function PostCard({ post }) {
 
 
           <div className="post-meta">
-
-            {/* =============================================
-                NAME + TIME + STATUS
-                ============================================= */}
-
             <div className="post-name-row">
 
               <div className="post-name-left">
@@ -369,21 +343,9 @@ export default function PostCard({ post }) {
               />
 
             </div>
-
-
-            {/* =============================================
-                POST TEXT
-                ============================================= */}
-
             <p className="post-text">
               {post.text}
             </p>
-
-
-            {/* =============================================
-                FLAG REASON
-                ============================================= */}
-
             {post.flagged &&
               categories.length > 0 && (
 
@@ -401,19 +363,9 @@ export default function PostCard({ post }) {
 
                 </div>
             )}
-
-
-            {/* =============================================
-                POST ACTIONS
-                ============================================= */}
-
             {!post.scanning && (
 
               <div className="post-actions">
-
-                {/* -----------------------------------------
-                    UPVOTE
-                    ----------------------------------------- */}
 
                 <button
                   type="button"
@@ -442,11 +394,6 @@ export default function PostCard({ post }) {
 
                 </button>
 
-
-                {/* -----------------------------------------
-                    COMMENT BUTTON
-                    ----------------------------------------- */}
-
                 <button
                   type="button"
                   onClick={openComments}
@@ -468,12 +415,6 @@ export default function PostCard({ post }) {
                   Comment
 
                 </button>
-
-
-                {/* -----------------------------------------
-                    HEART
-                    ----------------------------------------- */}
-
                 <button
                   type="button"
                   className={`like-btn ${
@@ -516,11 +457,6 @@ export default function PostCard({ post }) {
 
       </div>
 
-
-      {/* =================================================
-          COMMENTS MODAL
-          ================================================= */}
-
       {showComments && !post.scanning && (
 
         <div
@@ -543,11 +479,6 @@ export default function PostCard({ post }) {
               event.stopPropagation()
             }
           >
-
-            {/* =============================================
-                MODAL HEADER
-                ============================================= */}
-
             <div className="comments-modal-header">
 
               <div>
@@ -579,11 +510,6 @@ export default function PostCard({ post }) {
 
             </div>
 
-
-            {/* =============================================
-                COMMENTS LIST
-                ============================================= */}
-
             <div className="comments-modal-body">
 
               {commentsLoading ? (
@@ -604,8 +530,6 @@ export default function PostCard({ post }) {
                       }`}
                       >
 
-                      {/* COMMENT AVATAR */}
-
                       <div className="comment-avatar">
 
                         {comment.initials}
@@ -613,11 +537,7 @@ export default function PostCard({ post }) {
                       </div>
 
 
-                      {/* COMMENT CONTENT */}
-
                       <div className="comment-content">
-
-                        {/* COMMENT HEADER */}
 
                         <div className="comment-header">
 
@@ -641,9 +561,6 @@ export default function PostCard({ post }) {
                             · {comment.time}
                           </span>
 
-
-                          {/* ML STATUS */}
-
                           <span
                             className={
                               comment.flagged
@@ -660,17 +577,11 @@ export default function PostCard({ post }) {
 
                         </div>
 
-
-                        {/* COMMENT TEXT */}
-
                         <div className="comment-text">
 
                           {comment.text}
 
                         </div>
-
-
-                        {/* FLAG REASON */}
 
                         {comment.flagged && (
 
@@ -696,12 +607,6 @@ export default function PostCard({ post }) {
               )}
 
             </div>
-
-
-            {/* =============================================
-                COMMENT INPUT
-                ============================================= */}
-
             <div className="comment-input-row">
 
               <div className="comment-avatar">
@@ -764,11 +669,6 @@ export default function PostCard({ post }) {
     </>
   );
 }
-
-
-/* =====================================================
-   TIME FORMATTER
-===================================================== */
 
 function formatTime(dateStr) {
 

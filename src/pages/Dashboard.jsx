@@ -83,8 +83,6 @@ const composerRef = useRef(null);
     }
   }
 
-  /* ---------- Authentication ---------- */
-
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       navigate('/');
@@ -107,8 +105,6 @@ const composerRef = useRef(null);
 
   }, [navigate]);
 
-  /* ---------- Stats ---------- */
-
   const stats = useMemo(() => {
     const total = posts.length;
 
@@ -122,8 +118,6 @@ const composerRef = useRef(null);
       safe: total - flagged,
     };
   }, [posts]);
-
-  /* ---------- Filter ---------- */
 
   const visiblePosts = posts.filter((p) => {
     if (filter === 'all') {
@@ -141,7 +135,6 @@ const composerRef = useRef(null);
     return true;
   });
 
-  /* ---------- Create Post ---------- */
 
   async function handleNewPost(text) {
     const tempId =
@@ -149,25 +142,15 @@ const composerRef = useRef(null);
 
     const scanningPost = {
       id: tempId,
-
       name: 'You',
-
       handle: '',
-
       initials: 'SW',
-
       time: 'now',
-
       text,
-
       scanning: true,
-
       flagged: false,
-
       hits: [],
-
       likes: 0,
-
       ups: 0,
     };
 
@@ -202,7 +185,6 @@ const composerRef = useRef(null);
     }
   }
 
-
   return (
     <div className="dashboard">
 
@@ -217,8 +199,6 @@ const composerRef = useRef(null);
 
         <div className="center-col">
 
-          {/* Greeting */}
-
           <div className="greeting-card">
 
             <h2>
@@ -231,8 +211,6 @@ const composerRef = useRef(null);
             </p>
 
           </div>
-
-          {/* Composer */}
 
           {composerOpen ? (
             <Composer
@@ -252,8 +230,6 @@ const composerRef = useRef(null);
                 onPost={handleNewPost}
             />
           )}
-
-          {/* Filters */}
 
           <div className="filter-bar">
 
@@ -298,8 +274,6 @@ const composerRef = useRef(null);
 
           </div>
 
-          {/* Feed */}
-
           {loading && (
             <p className="feed-message">
               Loading feed...
@@ -323,11 +297,7 @@ const composerRef = useRef(null);
 
         </div>
 
-        {/* ---------- RIGHT COLUMN ---------- */}
-
         <div className="right-col">
-
-          {/* Safety Score */}
 
           <div className="widget">
 
@@ -368,8 +338,6 @@ const composerRef = useRef(null);
             </div>
 
           </div>
-
-          {/* Today's Activity */}
 
           <div className="widget">
 
@@ -425,13 +393,9 @@ const composerRef = useRef(null);
                 {stats.safe}
               </span>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }

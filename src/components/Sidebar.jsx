@@ -118,9 +118,6 @@ export default function Sidebar({ onNewPost }) {
 
         <div className="nav-divider" />
 
-
-        {/* SETTINGS */}
-
         <div className="settings-wrapper">
 
           <button
@@ -132,9 +129,6 @@ export default function Sidebar({ onNewPost }) {
               setSettingsOpen((current) => !current)
             }
           >
-
-            {/* ORIGINAL SETTINGS GEAR — UNCHANGED */}
-
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -152,9 +146,6 @@ export default function Sidebar({ onNewPost }) {
             </span>
 
           </button>
-
-
-          {/* SETTINGS POPUP */}
 
           {settingsOpen && (
             <div className="settings-popup">
@@ -210,9 +201,6 @@ export default function Sidebar({ onNewPost }) {
         </div>
 
       </div>
-
-
-      {/* NEW POST */}
 
       <button
         className="compose-mini"

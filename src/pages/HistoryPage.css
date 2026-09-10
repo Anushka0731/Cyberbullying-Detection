@@ -3,7 +3,6 @@
   background: var(--ivory);
 }
 
-
 .history-layout {
   display: grid;
   grid-template-columns: 220px minmax(0, 700px);
@@ -12,15 +11,9 @@
   padding: 30px 24px 60px;
 }
 
-
 .history-main {
   min-width: 0;
 }
-
-
-/* =====================================================
-   HEADER
-===================================================== */
 
 .history-header {
     background:
@@ -40,13 +33,11 @@
   gap: 24px;
 }
 
-
 .history-title h1 {
   margin: 0;
   color: #ffffff;
   font-size: 25px;
 }
-
 
 .history-title p {
   margin: 6px 0 0;
@@ -54,13 +45,11 @@
   font-size: 13px;
 }
 
-
 .history-summary {
   display: flex;
   align-items: center;
   gap: 22px;
 }
-
 
 .history-stat {
   display: flex;
@@ -69,12 +58,10 @@
   min-width: 48px;
 }
 
-
 .history-stat strong {
   color:#fff;
   font-size: 18px;
 }
-
 
 .history-stat span {
   margin-top: 2px;
@@ -82,31 +69,19 @@
   font-size: 10px;
 }
 
-
 .history-stat.safe strong {
   color: #1EFF00;
 }
 
-
 .history-stat.flagged strong {
   color: #FF0000;
 }
-
-
-/* =====================================================
-   FEED
-===================================================== */
 
 .history-feed {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
-
-
-/* =====================================================
-   MESSAGES
-===================================================== */
 
 .history-message {
   background: var(--card);
@@ -118,21 +93,14 @@
   font-size: 13px;
 }
 
-
 .history-error h3 {
   margin: 0;
   color: var(--ink);
 }
 
-
 .history-error p {
   margin: 7px 0 0;
 }
-
-
-/* =====================================================
-   EMPTY STATE
-===================================================== */
 
 .history-empty {
   background: var(--card);
@@ -141,7 +109,6 @@
   padding: 55px 20px;
   text-align: center;
 }
-
 
 .history-empty-icon {
   width: 48px;
@@ -161,20 +128,17 @@
   font-weight: 700;
 }
 
-
 .history-empty h2 {
   margin: 0;
   color: var(--ink);
   font-size: 19px;
 }
 
-
 .history-empty p {
   margin: 7px 0 18px;
   color: var(--ink-faint);
   font-size: 13px;
 }
-
 
 .history-empty button {
   border: none;
@@ -190,18 +154,11 @@
   cursor: pointer;
 }
 
-
 .history-empty button:hover {
   opacity: 0.9;
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
 @media (max-width: 900px) {
-
   .history-layout {
     grid-template-columns: 1fr;
     padding: 22px 16px 50px;
@@ -209,18 +166,14 @@
 
 }
 
-
 @media (max-width: 600px) {
 
   .history-header {
     align-items: flex-start;
     flex-direction: column;
   }
-
-
   .history-summary {
     width: 100%;
     justify-content: space-between;
   }
-
 }
