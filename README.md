@@ -1,14 +1,9 @@
-# Cyberbullying Detection on Social Media Platforms
+# Unsaid
 
-DBMS group project - a Twitter/Threads-style social platform that rates posts and comments for cyberbullying/harassment potential.
+Cyberbullying Detection on Social Media Platforms.
 
-## Team
-- Anushka (backend)
-- Swikriti
+## Project Structure
 
-## Folder structure
-- /db - schema, triggers, stored procedures, seed data
-- /backend - server + detection logic
-- /frontend - client app
-- /data - dataset info
-- /docs - ER diagram, report, notes
+- `src/` — React frontend
+- `ml/` — Cyberbullying detection ML API
+- `ml/app.py` — FastAPI server

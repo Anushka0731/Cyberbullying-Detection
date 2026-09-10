@@ -1,0 +1,24 @@
+.composer{
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.composer-row{ display: flex; gap: 12px; }
+.composer textarea{
+  flex: 1; border: none; resize: none; font-size: 14.5px;
+  min-height: 44px; color: var(--ink); background: transparent;
+}
+.composer textarea:focus{ outline: none; }
+.composer-footer{
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--line);
+}
+.scan-hint{ display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-faint); }
+.scan-hint svg{ width: 14px; height: 14px; }
+.post-btn{
+  background: var(--navy); color: var(--ivory); font-weight: 700; font-size: 13.5px;
+  padding: 9px 20px; border-radius: 20px; transition: background .15s;
+}
+.post-btn:hover{ background: var(--sapphire); }
+.post-btn:disabled{ opacity: .4; cursor: not-allowed; }
