@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+
 const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -16,15 +17,24 @@ app.use(express.json());
 
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.ATLAS_URI, { serverSelectionTimeoutMS: 5000 });
+    await mongoose.connect(process.env.ATLAS_URI, {
+      serverSelectionTimeoutMS: 10000
+    });
+
     console.log('MongoDB connected (Atlas)');
   } catch (err) {
-    console.log('Atlas connection failed, falling back to local MongoDB...');
+    console.log('Atlas connection failed:', err.message);
+    console.log('Falling back to local MongoDB...');
+
     try {
       await mongoose.connect(process.env.LOCAL_URI);
+
       console.log('MongoDB connected (Local)');
     } catch (localErr) {
-      console.log('Local MongoDB connection also failed:', localErr.message);
+      console.log(
+        'Local MongoDB connection also failed:',
+        localErr.message
+      );
     }
   }
 }
@@ -40,4 +50,7 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
