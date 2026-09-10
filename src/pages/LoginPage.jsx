@@ -1,17 +1,34 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
 import './LoginPage.css';
 
 export default function LoginPage() {
-  const [mode, setMode] = useState('login'); // 'login' | 'signup'
+  const [mode, setMode] = useState('login');
+  const [name, setName] = useState('');
+  const [handle, setHandle] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    navigate('/dashboard');
-  }
-
   const isSignup = mode === 'signup';
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError('');
+    try {
+      const data = isSignup
+        ? await api.register(name, handle, email, password)
+        : await api.login(email, password);
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
   return (
     <div className="auth-page">
@@ -67,61 +84,46 @@ export default function LoginPage() {
           </div>
 
           <div className="toggle-row">
-            <button className={`toggle-btn ${!isSignup ? 'active' : ''}`} onClick={() => setMode('login')}>
+            <button type="button" className={`toggle-btn ${!isSignup ? 'active' : ''}`} onClick={() => setMode('login')}>
               Log in
             </button>
-            <button className={`toggle-btn ${isSignup ? 'active' : ''}`} onClick={() => setMode('signup')}>
+            <button type="button" className={`toggle-btn ${isSignup ? 'active' : ''}`} onClick={() => setMode('signup')}>
               Sign up
             </button>
           </div>
+
+          {error && <div style={{ color: '#e5484d', fontSize: '13px', marginBottom: '10px' }}>{error}</div>}
 
           <form onSubmit={handleSubmit}>
             {isSignup && (
               <div className="field">
                 <label htmlFor="name">Full name</label>
-                <input type="text" id="name" placeholder="Swikriti Sharma" />
+                <input type="text" id="name" placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)} required />
+              </div>
+            )}
+
+            {isSignup && (
+              <div className="field">
+                <label htmlFor="handle">Handle</label>
+                <input type="text" id="handle" placeholder="@thecooldood" value={handle} onChange={(e) => setHandle(e.target.value)} required />
               </div>
             )}
 
             <div className="field">
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" placeholder="you@example.com" />
+              <input type="email" id="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
 
             <div className="field">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" placeholder="••••••••" />
+              <input type="password" id="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
               {isSignup && <div className="field-hint">Use 8+ characters with a number and a symbol.</div>}
             </div>
-
-            {isSignup && (
-              <div className="field">
-                <label htmlFor="confirm">Confirm password</label>
-                <input type="password" id="confirm" placeholder="••••••••" />
-              </div>
-            )}
-
-            {!isSignup ? (
-              <div className="row-between">
-                <label className="checkbox-row">
-                  <input type="checkbox" /> Remember me
-                </label>
-                <a href="#" className="link">Forgot password?</a>
-              </div>
-            ) : (
-              <div className="row-between" style={{ justifyContent: 'flex-start' }}>
-                <label className="checkbox-row">
-                  <input type="checkbox" /> I agree to the Community Guidelines
-                </label>
-              </div>
-            )}
 
             <button type="submit" className="submit-btn">
               {isSignup ? 'Create account' : 'Log in'}
             </button>
           </form>
-
-          <div className="divider">or continue with</div>
 
           {!isSignup ? (
             <div className="switch-line">

@@ -1,52 +1,90 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Topbar from '../components/Topbar';
 import Sidebar from '../components/Sidebar';
 import Composer from '../components/Composer';
 import PostCard from '../components/PostCard';
-import { analyzeText } from '../services/moderationService';
-import { seedPosts, suggestedUsers } from '../data/seedPosts';
+import { api } from '../services/api';
+import { suggestedUsers } from '../data/seedPosts';
 import './Dashboard.css';
 
-function withAnalysis(post) {
-  const result = analyzeText(post.text);
+function timeAgo(dateStr) {
+  const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+  if (diff < 60) return 'now';
+  if (diff < 3600) return `${Math.floor(diff / 60)}m`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
+  return `${Math.floor(diff / 86400)}d`;
+}
+
+function toCard(p) {
   return {
-    ...post,
-    ...result,
-    likes: Math.floor(Math.random() * 40) + 3,
-    ups: Math.floor(Math.random() * 60) + 5,
+    id: p._id,
+    name: p.user?.name ?? 'Unknown',
+    handle: p.user?.handle ?? '',
+    initials: p.user?.initials ?? '?',
+    time: timeAgo(p.createdAt),
+    text: p.text,
+    flagged: p.flagged,
+    hits: p.flagged ? [{ category: p.category }] : [],
+    likes: p.likes ?? 0,
+    ups: p.likes ?? 0,
   };
 }
 
 export default function Dashboard() {
-  const [posts, setPosts] = useState(() => seedPosts.map(withAnalysis));
+  const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/');
+      return;
+    }
+    api.getPosts()
+      .then((data) => setPosts(data.map(toCard)))
+      .catch((err) => console.log('Failed to load posts:', err.message))
+      .finally(() => setLoading(false));
+  }, [navigate]);
 
   const stats = useMemo(() => {
-    const total = posts.filter((p) => !p.scanning).length;
-    const flagged = posts.filter((p) => p.flagged && !p.scanning).length;
+    const total = posts.length;
+    const flagged = posts.filter((p) => p.flagged).length;
     return { total, flagged, safe: total - flagged };
   }, [posts]);
 
   const visiblePosts = posts.filter((p) => {
     if (filter === 'all') return true;
     if (filter === 'flagged') return p.flagged;
-    if (filter === 'safe') return !p.flagged && !p.scanning;
+    if (filter === 'safe') return !p.flagged;
     return true;
   });
 
-  function handleNewPost(text) {
-    const id = 'p-' + Date.now();
+  async function handleNewPost(text) {
+    const tempId = 'temp-' + Date.now();
     const scanningPost = {
-      id, name: 'Swikriti', handle: '@swikriti', initials: 'SW', time: 'now',
+      id: tempId, name: 'You', handle: '', initials: '..', time: 'now',
       text, scanning: true, flagged: false, hits: [], likes: 0, ups: 0,
     };
     setPosts((prev) => [scanningPost, ...prev]);
 
-    setTimeout(() => {
-      setPosts((prev) =>
-        prev.map((p) => (p.id === id ? { ...withAnalysis(p), scanning: false } : p))
-      );
-    }, 900);
+    try {
+      const newPost = await api.createPost(text);
+      setPosts((prev) => prev.map((p) => (p.id === tempId ? toCard(newPost) : p)));
+    } catch (err) {
+      console.log('Failed to create post:', err.message);
+      setPosts((prev) => prev.filter((p) => p.id !== tempId));
+    }
+  }
+
+  async function handleLike(id) {
+    try {
+      const updated = await api.likePost(id);
+      setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, likes: updated.likes } : p)));
+    } catch (err) {
+      console.log('Failed to like post:', err.message);
+    }
   }
 
   return (
@@ -76,8 +114,10 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {visiblePosts.map((post) => (
-            <PostCard key={post.id} post={post} />
+          {loading && <p>Loading feed...</p>}
+
+          {!loading && visiblePosts.map((post) => (
+            <PostCard key={post.id} post={post} onLike={handleLike} />
           ))}
         </div>
 

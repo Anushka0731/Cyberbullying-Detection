@@ -1,7 +1,7 @@
 import StatusPill from './StatusPill';
 import './PostCard.css';
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, onLike }) {
   const status = post.scanning ? 'scanning' : post.flagged ? 'flagged' : 'safe';
   const categories = post.hits ? [...new Set(post.hits.map((h) => h.category))] : [];
 
@@ -22,8 +22,7 @@ export default function PostCard({ post }) {
 
           {post.flagged && categories.length > 0 && (
             <div className="flag-detail">
-              <b>Why it was flagged:</b> matched {post.hits.length} pattern
-              {post.hits.length > 1 ? 's' : ''} across {categories.join(', ')} language.
+              <b>Why it was flagged:</b> classified as {categories.join(', ')} language.
             </div>
           )}
 
@@ -41,7 +40,7 @@ export default function PostCard({ post }) {
                 </svg>
                 Comment
               </button>
-              <button>
+              <button onClick={() => onLike(post.id)}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z" />
                 </svg>

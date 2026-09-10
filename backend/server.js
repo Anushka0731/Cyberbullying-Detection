@@ -14,9 +14,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log('MongoDB connection error:', err));
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.ATLAS_URI, { serverSelectionTimeoutMS: 5000 });
+    console.log('MongoDB connected (Atlas)');
+  } catch (err) {
+    console.log('Atlas connection failed, falling back to local MongoDB...');
+    try {
+      await mongoose.connect(process.env.LOCAL_URI);
+      console.log('MongoDB connected (Local)');
+    } catch (localErr) {
+      console.log('Local MongoDB connection also failed:', localErr.message);
+    }
+  }
+}
+
+connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
