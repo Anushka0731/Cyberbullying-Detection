@@ -45,14 +45,6 @@ export default function Dashboard() {
 
   const navigate = useNavigate();
 
-  function focusComposer() {
-    const textarea = document.querySelector('.composer textarea');
-    if (textarea) {
-      textarea.focus();
-      textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       navigate('/');
@@ -60,25 +52,41 @@ export default function Dashboard() {
     }
 
     api.getMe()
-      .then((data) => setUser(data.user))
-      .catch(() => navigate('/')); // token invalid/expired -> back to login
+      .then((data) => {
+        setUser(data.user);
+      })
+      .catch(() => {
+        navigate('/');
+      });
 
     api.getPosts()
-      .then((data) => setPosts(data.map(toCard)))
-      .catch((err) => console.log('Failed to load posts:', err.message))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        setPosts(data.map(toCard));
+      })
+      .catch((err) => {
+        console.log('Failed to load posts:', err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [navigate]);
 
   const stats = useMemo(() => {
     const total = posts.length;
     const flagged = posts.filter((p) => p.flagged).length;
-    return { total, flagged, safe: total - flagged };
+
+    return {
+      total,
+      flagged,
+      safe: total - flagged,
+    };
   }, [posts]);
 
   const visiblePosts = posts.filter((p) => {
     if (filter === 'all') return true;
     if (filter === 'flagged') return p.flagged;
     if (filter === 'safe') return !p.flagged;
+
     return true;
   });
 
@@ -87,8 +95,8 @@ export default function Dashboard() {
 
     const scanningPost = {
       id: tempId,
-      name: 'You',
-      handle: '',
+      name: user?.name ?? 'You',
+      handle: user?.handle ?? '',
       initials: user?.initials ?? '..',
       time: 'now',
       text,
@@ -103,18 +111,28 @@ export default function Dashboard() {
 
     try {
       const newPost = await api.createPost(text);
-      setPosts((prev) => prev.map((p) => (p.id === tempId ? toCard(newPost) : p)));
+
+      setPosts((prev) =>
+        prev.map((p) =>
+          p.id === tempId ? toCard(newPost) : p
+        )
+      );
     } catch (err) {
       console.log('Failed to create post:', err.message);
-      setPosts((prev) => prev.filter((p) => p.id !== tempId));
+
+      setPosts((prev) =>
+        prev.filter((p) => p.id !== tempId)
+      );
     }
   }
 
   return (
     <div className="dashboard">
+
       <Topbar user={user} />
 
       <div className="layout">
+
         <Sidebar
           onNewPost={() => {
             composerRef.current?.focus();
@@ -122,97 +140,171 @@ export default function Dashboard() {
         />
 
         <div className="center-col">
+
           <div className="greeting-card">
             <h2>How you feeling today?</h2>
-            <p>Your feed is checked automatically — post freely.</p>
+            <p>
+              Your feed is checked automatically — post freely.
+            </p>
           </div>
 
           {composerOpen ? (
-            <Composer open={true} onClose={() => setComposerOpen(false)} onPost={handleNewPost} />
+            <Composer
+              open={true}
+              onClose={() => setComposerOpen(false)}
+              onPost={handleNewPost}
+              user={user}
+            />
           ) : (
             <Composer
               open={false}
               onClose={() => setComposerOpen(true)}
               ref={composerRef}
               onPost={handleNewPost}
+              user={user}
             />
           )}
 
           <div className="filter-bar">
+
             <button
-              className={`filter-chip ${filter === 'all' ? 'active' : ''}`}
+              className={`filter-chip ${
+                filter === 'all' ? 'active' : ''
+              }`}
               onClick={() => setFilter('all')}
             >
               All posts
             </button>
 
             <button
-              className={`filter-chip ${filter === 'flagged' ? 'active' : ''}`}
+              className={`filter-chip ${
+                filter === 'flagged' ? 'active' : ''
+              }`}
               onClick={() => setFilter('flagged')}
             >
               Flagged
             </button>
 
             <button
-              className={`filter-chip ${filter === 'safe' ? 'active' : ''}`}
+              className={`filter-chip ${
+                filter === 'safe' ? 'active' : ''
+              }`}
               onClick={() => setFilter('safe')}
             >
               Verified safe
             </button>
+
           </div>
 
-          {loading && <p className="feed-message">Loading feed...</p>}
+          {loading && (
+            <p className="feed-message">
+              Loading feed...
+            </p>
+          )}
 
-          {!loading && visiblePosts.map((post) => <PostCard key={post.id} post={post} />)}
+          {!loading &&
+            visiblePosts.map((post) => (
+              <PostCard
+                key={post.id}
+                post={post}
+              />
+            ))}
 
           {!loading && visiblePosts.length === 0 && (
-            <div className="empty-feed">No posts in this category yet.</div>
+            <div className="empty-feed">
+              No posts in this category yet.
+            </div>
           )}
+
         </div>
 
         <div className="right-col">
+
           <div className="widget">
+
             <h3>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" />
               </svg>
+
               Community safety score
             </h3>
 
             <div className="score-row">
+
               <div className="score-num">
-                {stats.total ? Math.round((stats.safe / stats.total) * 100) : 100}%
+                {stats.total
+                  ? Math.round(
+                      (stats.safe / stats.total) * 100
+                    )
+                  : 100}
+                %
               </div>
-              <div className="score-sub">of posts scanned today were verified safe on first check.</div>
+
+              <div className="score-sub">
+                of posts scanned today were verified safe
+                on first check.
+              </div>
+
             </div>
+
           </div>
 
           <div className="widget">
+
             <h3>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="3" />
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="3"
+                />
+
                 <path d="M8 13v4M12 9v8M16 6v11" />
               </svg>
+
               Today's activity
             </h3>
 
             <div className="stat-row">
               <span>Posts scanned</span>
-              <span className="n">{stats.total}</span>
+              <span className="n">
+                {stats.total}
+              </span>
             </div>
 
             <div className="stat-row">
               <span>Flagged for review</span>
-              <span className="n flag">{stats.flagged}</span>
+              <span className="n flag">
+                {stats.flagged}
+              </span>
             </div>
 
             <div className="stat-row">
               <span>Verified safe</span>
-              <span className="n safe">{stats.safe}</span>
+              <span className="n safe">
+                {stats.safe}
+              </span>
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }

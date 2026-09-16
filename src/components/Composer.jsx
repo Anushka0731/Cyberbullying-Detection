@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import './Composer.css';
 
-const Composer = forwardRef(function Composer({ onPost }, ref) {
+const Composer = forwardRef(function Composer({ onPost, user }, ref) {
 
   const [text, setText] = useState('');
   const textareaRef = useRef(null);
@@ -32,16 +32,14 @@ const Composer = forwardRef(function Composer({ onPost }, ref) {
       <div className="composer-row">
 
         <div className="post-avatar">
-          SW
+          {user?.initials ?? '..'}
         </div>
 
         <textarea
           ref={textareaRef}
           placeholder="Share something with the community..."
           value={text}
-          onChange={(e) =>
-            setText(e.target.value)
-          }
+          onChange={(e) => setText(e.target.value)}
         />
 
       </div>
