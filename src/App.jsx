@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 
 import LoginPage from './pages/LoginPage';
+import VerifyPage from './pages/VerifyPage';
+import CheckEmailPage from './pages/CheckEmailPage';
 import Dashboard from './pages/Dashboard';
 import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
@@ -13,72 +15,38 @@ import HistoryPage from './pages/HistoryPage';
 
 import FloatingBubbles from './components/FloatingBubbles';
 
-
 export default function App() {
-
   return (
-
     <BrowserRouter>
 
       <FloatingBubbles />
 
       <Routes>
+        <Route path="/" element={<LoginPage />} />
 
-        {/* LOGIN */}
-
+        {/* After successful signup */}
         <Route
-          path="/"
-          element={<LoginPage />}
+          path="/check-email"
+          element={<CheckEmailPage />}
         />
 
-
-        {/* DASHBOARD / HOME */}
-
+        {/* Link opened from verification email */}
         <Route
-          path="/dashboard"
-          element={<Dashboard />}
+          path="/verify-email"
+          element={<VerifyPage />}
         />
 
-
-        {/* EXPLORE */}
-
-        <Route
-          path="/explore"
-          element={<ExplorePage />}
-        />
-
-
-        {/* PROFILE */}
-
-        <Route
-          path="/profile/:id"
-          element={<ProfilePage />}
-        />
-
-
-        {/* HISTORY */}
-
-        <Route
-          path="/history"
-          element={<HistoryPage />}
-        />
-
-
-        {/* ANY UNKNOWN URL */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/history" element={<HistoryPage />} />
 
         <Route
           path="*"
-          element={
-            <Navigate
-              to="/"
-              replace
-            />
-          }
+          element={<Navigate to="/" replace />}
         />
-
       </Routes>
 
     </BrowserRouter>
-
   );
 }

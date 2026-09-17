@@ -14,28 +14,115 @@ async function request(path, options = {}) {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    body: options.body
+      ? JSON.stringify(options.body)
+      : undefined,
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Something went wrong');
+
+  if (!res.ok) {
+    throw new Error(
+      data.error || 'Something went wrong'
+    );
+  }
+
   return data;
 }
 
 export const api = {
+  // =========================
+  // AUTH
+  // =========================
+
   register: (name, handle, email, password) =>
-    request('/auth/register', { method: 'POST', body: { name, handle, email, password } }),
+    request('/auth/register', {
+      method: 'POST',
+      body: {
+        name,
+        handle,
+        email,
+        password,
+      },
+    }),
 
   login: (email, password) =>
-    request('/auth/login', { method: 'POST', body: { email, password } }),
+    request('/auth/login', {
+      method: 'POST',
+      body: {
+        email,
+        password,
+      },
+    }),
 
-  getMe: () => request('/auth/me', { method: 'GET' }),
+  verifyEmail: (token) =>
+    request(
+      `/auth/verify-email?token=${encodeURIComponent(token)}`,
+      {
+        method: 'GET',
+      }
+    ),
 
-  getPosts: () => request('/posts', { method: 'GET' }),
+  getMe: () =>
+    request('/auth/me', {
+      method: 'GET',
+    }),
 
-  createPost: (text) => request('/posts', { method: 'POST', body: { text } }),
+  getUser: (id) =>
+    request(`/users/${id}`, {
+      method: 'GET',
+    }),
 
-  likePost: (id) => request(`/posts/${id}/like`, { method: 'POST' }),
+  searchUsers: (query) =>
+    request(
+      `/users/search?q=${encodeURIComponent(query)}`,
+      {
+        method: 'GET',
+      }
+    ),
 
-  addComment: (id, text) => request(`/posts/${id}/comment`, { method: 'POST', body: { text } }),
+  // =========================
+  // POSTS
+  // =========================
+
+  getPosts: () =>
+    request('/posts', {
+      method: 'GET',
+    }),
+
+  getHistory: () =>
+    request('/posts/history', {
+      method: 'GET',
+    }),
+
+  getUserPosts: (id) =>
+    request(`/users/${id}/posts`, {
+      method: 'GET',
+    }),
+
+  createPost: (text) =>
+    request('/posts', {
+      method: 'POST',
+      body: {
+        text,
+      },
+    }),
+
+  likePost: (id) =>
+    request(`/posts/${id}/like`, {
+      method: 'POST',
+    }),
+
+  addComment: (id, text) =>
+    request(`/posts/${id}/comment`, {
+      method: 'POST',
+      body: {
+        text,
+      },
+    }),
+
+    getComments: (id) =>
+  request(`/posts/${id}/comments`, {
+    method: 'GET',
+  }),
 };

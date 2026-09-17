@@ -51,6 +51,61 @@ export default function PostCard({ post }) {
   const [commentsLoading, setCommentsLoading] = useState(false);
 
   // =====================================================
+  // FORMAT COMMENT FROM BACKEND
+  // =====================================================
+
+  function formatComment(comment) {
+    const isFlagged = comment.flagged === true;
+
+    return {
+      id: comment._id,
+
+      text: comment.text,
+
+      flagged: isFlagged,
+
+      category:
+        comment.category ??
+        'not_cyberbullying',
+
+      bullyingProbability:
+        comment.bullyingProbability ??
+        0,
+
+      categoryConfidence:
+        comment.categoryConfidence ??
+        0,
+
+      name:
+        comment.user?.name ??
+        'Unknown',
+
+      initials:
+        comment.user?.initials ??
+        comment.user?.name
+          ?.split(' ')
+          .map((word) => word[0])
+          .join('')
+          .slice(0, 2)
+          .toUpperCase() ??
+        '?',
+
+      handle:
+        comment.user?.handle ??
+        '',
+
+      time: formatTime(comment.createdAt),
+
+      reason: isFlagged
+        ? `classified as ${
+            comment.category ??
+            'cyberbullying'
+          } language.`
+        : '',
+    };
+  }
+
+  // =====================================================
   // LOAD EXISTING COMMENTS
   // =====================================================
 
@@ -61,53 +116,7 @@ export default function PostCard({ post }) {
       const data = await api.getComments(post.id);
 
       setComments(
-        data.map((comment) => ({
-          id: comment._id,
-
-          text: comment.text,
-
-          flagged: comment.flagged === true,
-
-          category:
-            comment.category ??
-            'not_cyberbullying',
-
-          bullyingProbability:
-            comment.bullyingProbability ??
-            0,
-
-          categoryConfidence:
-            comment.categoryConfidence ??
-            0,
-
-          name:
-            comment.user?.name ??
-            'Unknown',
-
-          initials:
-            comment.user?.initials ??
-            comment.user?.name
-              ?.split(' ')
-              .map((word) => word[0])
-              .join('')
-              .slice(0, 2)
-              .toUpperCase() ??
-            '?',
-
-          handle:
-            comment.user?.handle ??
-            '',
-
-          time: formatTime(comment.createdAt),
-
-          reason:
-            comment.flagged === true
-              ? `classified as ${
-                  comment.category ??
-                  'cyberbullying'
-                } language.`
-              : '',
-        }))
+        data.map(formatComment)
       );
 
     } catch (err) {
@@ -116,7 +125,12 @@ export default function PostCard({ post }) {
         err
       );
 
-      setComments([]);
+      // IMPORTANT:
+      // Do not wipe comments that are already
+      // visible if loading fails.
+      console.error(
+        'Comments could not be loaded from the server.'
+      );
 
     } finally {
       setCommentsLoading(false);
@@ -230,54 +244,11 @@ export default function PostCard({ post }) {
         result.categoryConfidence
       );
 
-      const isFlagged =
-        result.flagged === true; //true = flagged
-
-      const newComment = {
-        id:
-          result._id ??
-          Date.now(),
-
-        text:
-          result.text ??
-          trimmed,
-
-        flagged:
-          isFlagged,
-
-        category:
-          result.category ??
-          'not_cyberbullying',
-
-        bullyingProbability:
-          result.bullyingProbability ??
-          0,
-
-        categoryConfidence:
-          result.categoryConfidence ??
-          0,
-
-        name:
-          result.user?.name ??
-          'Swikriti Gupta',
-
-        initials:
-          result.user?.initials ??
-          'SG',
-
-        handle:
-          result.user?.handle ??
-          '',
-
-        time: 'now',
-
-        reason: isFlagged
-          ? `classified as ${
-              result.category ??
-              'cyberbullying'
-            } language.`
-          : '',
-      };
+      // Use the exact comment returned by the backend.
+      // This means the displayed comment matches
+      // what was actually saved in MongoDB.
+      const newComment =
+        formatComment(result);
 
       console.log('');
       console.log(
@@ -321,8 +292,8 @@ export default function PostCard({ post }) {
             {post.initials}
           </div>
 
-
           <div className="post-meta">
+
             <div className="post-name-row">
 
               <div className="post-name-left">
@@ -337,15 +308,16 @@ export default function PostCard({ post }) {
 
               </div>
 
-
               <StatusPill
                 status={status}
               />
 
             </div>
+
             <p className="post-text">
               {post.text}
             </p>
+
             {post.flagged &&
               categories.length > 0 && (
 
@@ -363,6 +335,7 @@ export default function PostCard({ post }) {
 
                 </div>
             )}
+
             {!post.scanning && (
 
               <div className="post-actions">
@@ -415,6 +388,7 @@ export default function PostCard({ post }) {
                   Comment
 
                 </button>
+
                 <button
                   type="button"
                   className={`like-btn ${
@@ -479,6 +453,7 @@ export default function PostCard({ post }) {
               event.stopPropagation()
             }
           >
+
             <div className="comments-modal-header">
 
               <div>
@@ -496,16 +471,13 @@ export default function PostCard({ post }) {
 
               </div>
 
-
               <button
                 type="button"
                 className="comments-close"
                 onClick={closeComments}
                 aria-label="Close comments"
               >
-
                 ×
-
               </button>
 
             </div>
@@ -523,19 +495,21 @@ export default function PostCard({ post }) {
                 comments.map(
                   (comment) => (
                     <div
-                    className={`comment-item ${
-                      comment.flagged ? 'comment-flagged' : ''
-                    } ${
-                      comment.isNew ? 'comment-new' : ''
+                      key={comment.id}
+                      className={`comment-item ${
+                        comment.flagged
+                          ? 'comment-flagged'
+                          : ''
+                      } ${
+                        comment.isNew
+                          ? 'comment-new'
+                          : ''
                       }`}
-                      >
+                    >
 
                       <div className="comment-avatar">
-
                         {comment.initials}
-
                       </div>
-
 
                       <div className="comment-content">
 
@@ -578,9 +552,7 @@ export default function PostCard({ post }) {
                         </div>
 
                         <div className="comment-text">
-
                           {comment.text}
-
                         </div>
 
                         {comment.flagged && (
@@ -600,19 +572,18 @@ export default function PostCard({ post }) {
                       </div>
 
                     </div>
-
                   )
                 )
 
               )}
 
             </div>
+
             <div className="comment-input-row">
 
               <div className="comment-avatar">
                 SG
               </div>
-
 
               <input
                 type="text"
@@ -628,9 +599,7 @@ export default function PostCard({ post }) {
                   if (
                     e.key === 'Enter'
                   ) {
-
                     handleCommentSubmit();
-
                   }
 
                 }}
@@ -638,7 +607,6 @@ export default function PostCard({ post }) {
                   commentLoading
                 }
               />
-
 
               <button
                 type="button"
