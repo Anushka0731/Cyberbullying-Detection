@@ -3,14 +3,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f7d9e3;
+  background: #fff;
   padding: 24px;
 }
 
 .verify-card {
   width: 100%;
   max-width: 430px;
-  background: white;
+  background: #eeeeee;
   border-radius: 20px;
   padding: 45px 40px;
   text-align: center;
@@ -22,7 +22,7 @@
   height: 70px;
   margin: 0 auto 24px;
   border-radius: 50%;
-  background: #82418c;
+  background: #000000;
   color: white;
   display: flex;
   align-items: center;
@@ -32,7 +32,7 @@
 
 .verify-card h1 {
   margin: 0 0 14px;
-  color: #430d4b;
+  color: #000000;
   font-size: 30px;
 }
 
@@ -45,7 +45,7 @@
 
 .verify-email {
   margin: 10px 0 20px;
-  color: #82418c;
+  color: #979797;
   font-weight: 600;
   word-break: break-word;
 }
@@ -62,7 +62,7 @@
   border: none;
   border-radius: 10px;
   padding: 13px;
-  background: #82418c;
+  background: #000000;
   color: white;
   font-size: 15px;
   font-weight: 600;
@@ -71,5 +71,5 @@
 }
 
 .verify-back-btn:hover {
-  background: #430d4b;
+  background: #979797;
 }

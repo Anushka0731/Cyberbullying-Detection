@@ -1,21 +1,28 @@
 .layout {
-  max-width: 1180px;
-  margin: 0 auto;
+  margin-left: 260px;
+  margin-top: 70px;
+  width: calc(100% - 260px);
+  box-sizing: border-box;
+
   display: grid;
-  grid-template-columns:
-    230px
-    1fr
-    280px;
+  grid-template-columns: minmax(0, 1fr) 280px;
   gap: 24px;
+
   padding: 24px 24px 60px;
   align-items: start;
 }
 
 @media (max-width: 980px) {
   .layout {
-    grid-template-columns:
-      76px
-      1fr;
+    margin-left: 76px;
+    width: calc(100% - 76px);
+
+    grid-template-columns: 1fr;
+    padding: 24px 20px 60px;
+  }
+
+  .left-col {
+    width: 76px;
   }
 
   .right-col {
@@ -25,10 +32,17 @@
 
 @media (max-width: 680px) {
   .layout {
+    margin-left: 0;
+    width: 100%;
     grid-template-columns: 1fr;
     padding: 16px;
   }
+
+  .left-col {
+    display: none;
+  }
 }
+
 .center-col {
   min-width: 0;
   display: flex;
@@ -37,27 +51,22 @@
 }
 
 .greeting-card {
-  background:
-    linear-gradient(
-      120deg,
-      #430D4B,
-      #82418C
-    );
-
-  color: var(--ivory);
-  border-radius: var(--radius);
+  background: #000000;
+  color: #fff;
   padding: 20px 22px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .greeting-card h2 {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 5px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .greeting-card p {
   font-size: 13.5px;
-  color: #F0E8F2;
+  color: #ffffff;
 }
 
 .filter-bar {
@@ -68,7 +77,7 @@
 .filter-chip {
   font-size: 13px;
   font-weight: 600;
-  color: #82418C;
+  color: #000000;
   background: var(--card);
   border: 1px solid var(--line);
   padding: 7px 15px;
@@ -79,14 +88,14 @@
 }
 
 .filter-chip:hover {
-  border-color: #82418C;
-  color: #430D4B;
+  border-color: #000000;
+  color: #000000;
 }
 
 .filter-chip.active {
-  background: #430D4B;
-  color: var(--ivory);
-  border-color: #430D4B;
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
 }
 
 .feed-message {
@@ -124,16 +133,18 @@
   font-size: 13.5px;
   font-weight: 700;
   margin-bottom: 12px;
-  color: #430D4B;
+  color: #000000;
   display: flex;
   align-items: center;
   gap: 7px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .widget h3 svg {
   width: 15px;
   height: 15px;
-  color: #82418C;
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
 }
 
 .score-row {
@@ -147,6 +158,7 @@
   font-weight: 600;
   font-family: 'Fraunces', serif;
   color: var(--safe);
+  font-family: 'Poppins', sans-serif;
 }
 
 .score-sub {
@@ -180,3 +192,4 @@
 .n.safe {
   color: var(--safe);
 }
+

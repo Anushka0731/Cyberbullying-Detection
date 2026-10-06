@@ -112,11 +112,11 @@
 
 .cancel-btn:hover {
   background: #F1E8F2;
-  color: #430D4B;
+  color: #000000;
 }
 
 .post-btn {
-  background: #430D4B;
+  background: #000000;
   color: var(--ivory);
   border: none;
   font-weight: 700;
@@ -130,7 +130,7 @@
 }
 
 .post-btn:hover {
-  background: #82418C;
+  background: #979797;
 }
 
 .post-btn:active {

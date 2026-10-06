@@ -13,13 +13,9 @@ import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
 import HistoryPage from './pages/HistoryPage';
 
-import FloatingBubbles from './components/FloatingBubbles';
-
 export default function App() {
   return (
     <BrowserRouter>
-
-      <FloatingBubbles />
 
       <Routes>
         <Route path="/" element={<LoginPage />} />

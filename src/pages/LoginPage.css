@@ -8,20 +8,16 @@
   --ink-soft: #65718A;
   --line: #D8DCE5;
 
-  --login-pink: #F5D5E0;
-  --deep-purple: #430D4B;
-  --purple-light: #82418C;
+  --login-pink: #ffffff;
+  --deep-purple: #000000;
+  --purple-light: #000000;
 
-  --bubble-text: #F3C7C7;
+  --bubble-text: #000000;
 }
 
 * {
   box-sizing: border-box;
 }
-
-/* =========================================================
-   PAGE — single centered panel
-========================================================= */
 
 .auth-page {
   min-height: 100vh;
@@ -49,12 +45,9 @@
   max-width: 380px;
 }
 
-/* =========================================================
-   FORM
-========================================================= */
-
 .form-head {
   margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-head h2 {
@@ -62,11 +55,12 @@
   font-weight: 600;
   color: var(--deep-purple);
   margin: 0 0 6px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-head p {
   font-size: 14px;
-  color: #6F5368;
+  color: #000000;
   margin: 0;
   line-height: 1.5;
 }
@@ -97,7 +91,7 @@
 }
 
 .toggle-btn:hover {
-  background: #5A1763;
+  background: #9b9b9b;
 }
 
 .toggle-btn.active {
@@ -186,7 +180,7 @@
 }
 
 .submit-btn:hover {
-  background: #5A1763;
+  background: #9b9b9b;
   box-shadow:
     0 4px 12px
     rgba(67, 13, 75, 0.18);
@@ -218,12 +212,6 @@
     padding: 32px 24px;
   }
 }
-
-/* =========================================================
-   PARKED: brand panel + bubble styles.
-   Nothing on the page uses these right now — kept so the
-   left panel can be dropped back in later.
-========================================================= */
 
 .brand-panel {
   position: relative;

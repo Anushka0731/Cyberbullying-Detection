@@ -1,14 +1,18 @@
 .history-page {
   min-height: 100vh;
-  background: var(--ivory);
+  background: #fff;
 }
 
 .history-layout {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  box-sizing: border-box;
+
   display: grid;
-  grid-template-columns: 220px minmax(0, 700px);
+  grid-template-columns: minmax(0, 850px);
   justify-content: center;
-  gap: 34px;
-  padding: 30px 24px 60px;
+
+  padding: 88px 40px 60px;
 }
 
 .history-main {
@@ -16,14 +20,8 @@
 }
 
 .history-header {
-    background:
-    linear-gradient(
-      120deg,
-      #430D4B,
-      #82418C
-    );
+    background:#000;
   border: 1px solid var(--line);
-  border-radius: 18px;
   padding: 22px 24px;
   margin-bottom: 22px;
 
@@ -31,12 +29,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .history-title h1 {
   margin: 0;
   color: #ffffff;
   font-size: 25px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .history-title p {
@@ -117,8 +117,8 @@
 
   border-radius: 50%;
 
-  background: #f3edf4;
-  color: #82418C;
+  background: #fff;
+  color: #000000;
 
   display: flex;
   align-items: center;

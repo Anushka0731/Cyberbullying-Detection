@@ -3,12 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import './LoginPage.css';
 
-/* =========================================================
-   PARKED: brand-panel bubbles.
-   Not rendered right now, kept for when the left panel
-   comes back. Safe to leave untouched.
-========================================================= */
-
 const CAUGHT_COMMENTS = [
   "you're so stupid, nobody wants you here",
   "nobody even likes you, just leave already",
@@ -219,9 +213,8 @@ function CommentBubble({ text }) {
 
 export { CommentBubble, CAUGHT_COMMENTS };
 
-/* =========================================================
-   LOGIN PAGE
-========================================================= */
+
+
 
 export default function LoginPage() {
   const [mode, setMode] = useState('login');
@@ -317,12 +310,6 @@ export default function LoginPage() {
 
         await api.register(cleanName, cleanHandle, cleanEmail, password);
 
-        /*
-          IMPORTANT:
-          We do NOT save a token here.
-          The user must verify their email first.
-        */
-
         setSubmitting(false);
 
         navigate('/check-email', {
@@ -370,7 +357,6 @@ export default function LoginPage() {
             )}
           </div>
 
-          {/* LOGIN / SIGNUP TOGGLE */}
 
           <div className="toggle-row">
             <button

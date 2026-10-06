@@ -1,17 +1,25 @@
 .left-col {
-  position: sticky;
-  top: 88px;
+  position: fixed;
+  left: 0;
+  top: 76px;
+  bottom: 0;
+
+  width: 250px;
+  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
 
   background: var(--card);
-
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border: none;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
 
   padding: 14px;
   gap: 2px;
+
+  overflow-y: visible;
+  z-index: 100;
 }
 
 .nav-item {
@@ -32,7 +40,7 @@
   font-weight: 600;
   font-size: 14.5px;
 
-  color: var(--ink-soft);
+  color: #000;
 
   transition:
     background 0.12s,
@@ -51,13 +59,13 @@
 }
 
 .nav-item:hover {
-  background: #F1E8F2;
-  color: #430D4B;
+  background: #fff;
+  color: #000000;
 }
 
 .nav-item.active {
-  background: #430D4B;
-  color: var(--ivory);
+  background: #000000;
+  color: #fff;
 }
 
 .nav-spacer {
@@ -77,9 +85,9 @@
 
   margin-top: 6px;
 
-  background: #82418C;
+  background: #000000;
 
-  color: var(--ivory);
+  color: #fff;
 
   border: none;
   border-radius: 10px;
@@ -99,7 +107,7 @@
 }
 
 .compose-mini:hover {
-  background: #430D4B;
+  background: #979797;
 }
 
 .compose-mini:active {
@@ -209,7 +217,7 @@
 
   font-size: 15px;
 
-  color: #82418C;
+  color: #000000;
 }
 
 

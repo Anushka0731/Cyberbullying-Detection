@@ -1,5 +1,5 @@
 const express = require('express');
-console.log('🔥🔥🔥 LOADED postRoutes.js 🔥🔥🔥');
+console.log('LOADED postRoutes.js');
 
 const axios = require('axios');
 
@@ -11,11 +11,6 @@ const router = express.Router();
 
 const ML_API_URL =
   process.env.ML_API_URL || 'http://localhost:8000/api/predict';
-
-
-// =====================================================
-// CREATE POST
-// =====================================================
 
 router.post('/', auth, async (req, res) => {
   try {
@@ -41,7 +36,7 @@ router.post('/', auth, async (req, res) => {
         }
       );
 
-      console.log('🔥 POST ML RESULT:', mlResponse.data);
+      console.log('POST ML RESULT:', mlResponse.data);
 
       flagged = Boolean(
         mlResponse.data.is_bullying
@@ -58,7 +53,7 @@ router.post('/', auth, async (req, res) => {
 
     } catch (mlErr) {
       console.error(
-        '🔥 POST ML ERROR:',
+        'POST ML ERROR:',
         mlErr.response?.data || mlErr.message
       );
 
@@ -84,18 +79,13 @@ router.post('/', auth, async (req, res) => {
     res.status(201).json(post);
 
   } catch (err) {
-    console.error('🔥 POST ERROR:', err);
+    console.error('POST ERROR:', err);
 
     res.status(500).json({
       error: err.message,
     });
   }
 });
-
-
-// =====================================================
-// GET ALL POSTS
-// =====================================================
 
 router.get('/', auth, async (req, res) => {
   try {
@@ -112,7 +102,7 @@ router.get('/', auth, async (req, res) => {
 
   } catch (err) {
     console.error(
-      '🔥 GET POSTS ERROR:',
+      'GET POSTS ERROR:',
       err
     );
 
@@ -121,12 +111,6 @@ router.get('/', auth, async (req, res) => {
     });
   }
 });
-
-
-// =====================================================
-// GET MY POST HISTORY
-// ONLY POSTS BELONGING TO LOGGED-IN USER
-// =====================================================
 
 router.get('/history', auth, async (req, res) => {
   try {
@@ -142,12 +126,12 @@ router.get('/history', auth, async (req, res) => {
       });
 
     console.log(
-      '📜 HISTORY FOR USER:',
+      'HISTORY FOR USER:',
       req.userId
     );
 
     console.log(
-      '📜 HISTORY POSTS FOUND:',
+      'HISTORY POSTS FOUND:',
       posts.length
     );
 
@@ -155,7 +139,7 @@ router.get('/history', auth, async (req, res) => {
 
   } catch (err) {
     console.error(
-      '🔥 HISTORY ERROR:',
+      'HISTORY ERROR:',
       err
     );
 
@@ -164,11 +148,6 @@ router.get('/history', auth, async (req, res) => {
     });
   }
 });
-
-
-// =====================================================
-// LIKE POST
-// =====================================================
 
 router.post('/:id/like', auth, async (req, res) => {
   try {
@@ -190,7 +169,7 @@ router.post('/:id/like', auth, async (req, res) => {
 
   } catch (err) {
     console.error(
-      '🔥 LIKE ERROR:',
+      'LIKE ERROR:',
       err
     );
 
@@ -200,18 +179,10 @@ router.post('/:id/like', auth, async (req, res) => {
   }
 });
 
-
-// =====================================================
-// ADD COMMENT
-// COMMENT IS CHECKED BY SAME ML MODEL AS POSTS
-// =====================================================
-
 router.post('/:id/comment', auth, async (req, res) => {
 
   console.log('');
-  console.log('======================================');
-  console.log('🔥🔥🔥 COMMENT ROUTE HIT 🔥🔥🔥');
-  console.log('======================================');
+  console.log('COMMENT ROUTE HIT');
 
   try {
 
@@ -226,19 +197,14 @@ router.post('/:id/comment', auth, async (req, res) => {
     const trimmedText = text.trim();
 
     console.log(
-      '🔥 COMMENT TEXT:',
+      'COMMENT TEXT:',
       trimmedText
     );
 
     console.log(
-      '🔥 ML API URL:',
+      'ML API URL:',
       ML_API_URL
     );
-
-
-    // =================================================
-    // SEND COMMENT TO SAME ML API AS POSTS
-    // =================================================
 
     let mlResponse;
 
@@ -252,14 +218,14 @@ router.post('/:id/comment', auth, async (req, res) => {
       );
 
       console.log(
-        '🔥🔥🔥 COMMENT ML RESPONSE:',
+        'COMMENT ML RESPONSE:',
         mlResponse.data
       );
 
     } catch (mlErr) {
 
       console.error(
-        '🔥 COMMENT ML ERROR:',
+        'COMMENT ML ERROR:',
         mlErr.response?.data ||
         mlErr.message
       );
@@ -269,11 +235,6 @@ router.post('/:id/comment', auth, async (req, res) => {
           'ML service unavailable. Comment was not checked.',
       });
     }
-
-
-    // =================================================
-    // GET ML VALUES
-    // =================================================
 
     const flagged = Boolean(
       mlResponse.data.is_bullying
@@ -295,29 +256,24 @@ router.post('/:id/comment', auth, async (req, res) => {
 
 
     console.log(
-      '🔥 COMMENT FLAGGED:',
+      'COMMENT FLAGGED:',
       flagged
     );
 
     console.log(
-      '🔥 COMMENT CATEGORY:',
+      'COMMENT CATEGORY:',
       category
     );
 
     console.log(
-      '🔥 COMMENT BULLYING PROBABILITY:',
+      'COMMENT BULLYING PROBABILITY:',
       bullyingProbability
     );
 
     console.log(
-      '🔥 COMMENT CATEGORY CONFIDENCE:',
+      'COMMENT CATEGORY CONFIDENCE:',
       categoryConfidence
     );
-
-
-    // =================================================
-    // SAVE COMMENT
-    // =================================================
 
     const comment = await Comment.create({
       post: req.params.id,
@@ -330,20 +286,10 @@ router.post('/:id/comment', auth, async (req, res) => {
       categoryConfidence: categoryConfidence,
     });
 
-
-    // =================================================
-    // GET USER INFORMATION
-    // =================================================
-
     await comment.populate(
       'user',
       'name handle initials'
     );
-
-
-    // =================================================
-    // RETURN ML DATA DIRECTLY
-    // =================================================
 
     const response = {
       _id: comment._id,
@@ -366,7 +312,7 @@ router.post('/:id/comment', auth, async (req, res) => {
 
 
     console.log(
-      '🔥🔥🔥 FINAL COMMENT RESPONSE:',
+      'FINAL COMMENT RESPONSE:',
       response
     );
 
@@ -380,7 +326,7 @@ router.post('/:id/comment', auth, async (req, res) => {
   } catch (err) {
 
     console.error(
-      '🔥🔥🔥 COMMENT ERROR:',
+      'COMMENT ERROR:',
       err
     );
 
@@ -389,11 +335,6 @@ router.post('/:id/comment', auth, async (req, res) => {
     });
   }
 });
-
-
-// =====================================================
-// GET COMMENTS FOR POST
-// =====================================================
 
 router.get('/:id/comments', auth, async (req, res) => {
 
@@ -415,7 +356,7 @@ router.get('/:id/comments', auth, async (req, res) => {
   } catch (err) {
 
     console.error(
-      '🔥 GET COMMENTS ERROR:',
+      'GET COMMENTS ERROR:',
       err
     );
 

@@ -50,7 +50,7 @@
 
   font-weight: 700;
   font-size: 12.5px;
-  color: #430D4B;
+  color: #000000;
 }
 
 .post-meta {
@@ -238,7 +238,7 @@
 
   font-size: 10px;
   font-weight: 700;
-  color: var(--navy);
+  color: #fff;
 }
 
 .comment-input-row input {
@@ -251,21 +251,21 @@
   padding: 8px 12px;
 
   font-size: 12.5px;
-  color: var(--ink);
+  color: #000;
   background: var(--card);
 }
 
 .comment-input-row input:focus {
   outline: none;
-  border-color: var(--sapphire);
+  border-color: #000;
 }
 
 .comment-submit {
   border-radius: 18px;
   padding: 8px 12px;
 
-  background: var(--navy);
-  color: var(--ivory);
+  background: #fff;
+  color: #000;
 
   font-size: 11.5px;
   font-weight: 700;
@@ -481,7 +481,7 @@
   align-items: center;
   justify-content: center;
 
-  color: #430D4B;
+  color: #000;
 
   font-size: 11px;
   font-weight: 700;
@@ -585,7 +585,7 @@
 }
 
 .comments-modal .comment-input-row input:focus {
-  border-color: #82418C;
+  border-color: #000000;
 }
 
 .comments-modal .comment-submit {
@@ -594,7 +594,7 @@
 
   padding: 8px 13px;
 
-  background: #82418C;
+  background: #000;
   color: white;
 
   font-size: 12px;
