@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import joblib
 import re
 
-binary_model = joblib.load("binary_model.pkl") #loaded models
+binary_model = joblib.load("binary_model.pkl")
 binary_vectorizer = joblib.load("binary_vectorizer.pkl")
 
 category_model = joblib.load("category_model.pkl")
@@ -14,8 +14,7 @@ app = FastAPI()
 class PredictionRequest(BaseModel):
     text: str
 
-def clean_text(text): #text cleaning step
-
+def clean_text(text):
     text = str(text).lower()
 
     text = re.sub(
@@ -38,44 +37,43 @@ def clean_text(text): #text cleaning step
         " ",
         text
     )
+
     return text.strip()
 
 @app.get("/")
 def home():
-
     return {
         "message": "Unsaid ML API is running"
     }
 
-@app.post("/api/predict") #predictions
+@app.post("/api/predict")
 def predict(request: PredictionRequest):
-    cleaned = clean_text(
-        request.text
-    )
-    
-    binary_features = ( #binary
-        binary_vectorizer.transform(
-            [cleaned]
-        )
+
+    cleaned = clean_text(request.text)
+
+    binary_features = binary_vectorizer.transform(
+        [cleaned]
     )
 
-    binary_probabilities = (
-        binary_model.predict_proba(
-            binary_features
-        )[0]
-    )
+    binary_probabilities = binary_model.predict_proba(
+        binary_features
+    )[0]
+
+    true_index = list(
+        binary_model.classes_
+    ).index(True)
 
     bullying_probability = float(
-        binary_probabilities[1]
+        binary_probabilities[true_index]
     )
+
     is_bullying = (
-        bullying_probability >= 0.75
+        bullying_probability >= 0.60
     )
-    
-    if not is_bullying: #for not bully
+
+    if not is_bullying:
 
         return {
-
             "is_bullying": False,
 
             "bullying_probability":
@@ -86,20 +84,15 @@ def predict(request: PredictionRequest):
 
             "category":
                 "not_cyberbullying",
-
         }
 
-    category_features = ( #category model
-        category_vectorizer.transform(
-            [cleaned]
-        )
+    category_features = category_vectorizer.transform(
+        [cleaned]
     )
 
-    category_probabilities = (
-        category_model.predict_proba(
-            category_features
-        )[0]
-    )
+    category_probabilities = category_model.predict_proba(
+        category_features
+    )[0]
 
     category_index = (
         category_probabilities.argmax()
@@ -116,7 +109,8 @@ def predict(request: PredictionRequest):
             category_index
         ]
     )
-    return { #results
+
+    return {
 
         "is_bullying":
             True,

@@ -80,19 +80,6 @@
   border-top: 1px solid var(--line);
 }
 
-.scan-hint {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--ink-faint);
-}
-
-.scan-hint svg {
-  width: 14px;
-  height: 14px;
-}
-
 .composer-buttons {
   display: flex;
   align-items: center;
@@ -140,4 +127,100 @@
 .post-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* Screenshot controls */
+
+.composer-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.add-screenshot-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  background: transparent;
+  border: none;
+
+  color: var(--ink-soft);
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  padding: 7px 9px;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.add-screenshot-btn:hover {
+  background: #F1E8F2;
+  color: #000000;
+}
+
+.add-screenshot-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.screenshot-preview {
+  margin-top: 14px;
+
+  border: 1px solid var(--line);
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  background: #fafafa;
+}
+
+.screenshot-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 8px 11px;
+
+  border-bottom: 1px solid var(--line);
+
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.remove-screenshot {
+  border: none;
+  background: transparent;
+
+  color: var(--ink-soft);
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  padding: 0 3px;
+}
+
+.remove-screenshot:hover {
+  color: #000000;
+}
+
+.screenshot-preview img {
+  display: block;
+
+  width: 100%;
+  max-height: 300px;
+
+  object-fit: contain;
+
+  background: #f5f5f5;
 }
